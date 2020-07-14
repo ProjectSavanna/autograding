@@ -1,0 +1,36 @@
+Library
+  signature OUTPUT
+
+  structure UnitOutput
+  structure IntOutput
+  structure CharOutput
+  structure StringOutput
+  structure BoolOutput
+  structure OrderOutput
+
+  structure SymbolOutput
+
+  functor ListOutput
+  functor OptionOutput
+
+  functor PairOutput
+  functor TripleOutput
+is
+  $/basis.cm
+
+  OUTPUT.sig
+
+  UnitOutput.sml
+  IntOutput.sml
+  CharOutput.sml
+  StringOutput.sml
+  BoolOutput.sml
+  OrderOutput.sml
+
+  SymbolOutput.sml
+
+  ListOutput.fun
+  OptionOutput.fun
+
+  PairOutput.fun
+  TripleOutput.fun

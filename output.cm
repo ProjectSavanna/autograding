@@ -1,0 +1,4 @@
+Library
+  library(src/output/output.cm)
+is
+  src/output/output.cm

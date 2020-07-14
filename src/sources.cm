@@ -1,0 +1,19 @@
+Library
+  signature GRADER
+
+  signature OUTPUT
+  functor EquivGrader
+
+  structure FormatUtil
+is
+  $/basis.cm
+  $SMACKAGE/typeclasses/v1/sources.cm
+  $SMACKAGE/numbers/v1/sources.cm
+
+  GRADER.sig
+
+  output/output.cm
+  $SMACKAGE/result/v1/sources.cm
+  EquivGrader.fun
+
+  FormatUtil.sml

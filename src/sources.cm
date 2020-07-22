@@ -1,6 +1,15 @@
 Library
   signature GRADER
 
+  functor ProdGrader2
+  functor ProdGrader3
+  functor ProdGrader4
+  functor ProdGrader5
+  functor ProdGrader6
+  functor ProdGrader7
+  functor ProdGrader8
+  functor ProdGrader9
+
   signature OUTPUT
   functor EquivGrader
 
@@ -11,6 +20,17 @@ is
   $SMACKAGE/numbers/v1/sources.cm
 
   GRADER.sig
+
+  prod (
+    ProdGrader2.sml
+    ProdGrader3.sml
+    ProdGrader4.sml
+    ProdGrader5.sml
+    ProdGrader6.sml
+    ProdGrader7.sml
+    ProdGrader8.sml
+    ProdGrader9.sml
+  )
 
   output/output.cm
   $SMACKAGE/result/v1/sources.cm

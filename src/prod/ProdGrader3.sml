@@ -2,6 +2,7 @@ functor ProdGrader3 (
   structure Grader1 : GRADER
   structure Grader2 : GRADER
   structure Grader3 : GRADER
+  val descriptions : string * string * string
   val weights : int * int * int
 ) :> GRADER =
   struct
@@ -31,20 +32,29 @@ functor ProdGrader3 (
           ) weights
         end
 
-        val toString = fn rubric as {g1=g1,g2=g2,g3=g3} =>
-          String.concat (
-            ListPair.map (op ^) (
-              ListPair.map FormatUtil.showPercents (
-                scores rubric,
-                fractions
-              ),
-              List.map FormatUtil.indent [
-                Grader1.Rubric.toString g1,
-                Grader2.Rubric.toString g2,
-                Grader3.Rubric.toString g3
-              ]
+        local
+          val (d1,d2,d3) = descriptions
+          val combine = fn (percent,description) => percent ^ " " ^ description
+          val format = fn (description,output) => description ^ "\n" ^ FormatUtil.indent output
+        in
+          val toString = fn rubric as {g1=g1,g2=g2,g3=g3} =>
+            String.concat (
+              ListPair.map format (
+                ListPair.map combine (
+                  ListPair.map FormatUtil.showPercents (
+                    scores rubric,
+                    fractions
+                  ),
+                  [d1,d2,d3]
+                ),
+                [
+                  Grader1.Rubric.toString g1,
+                  Grader2.Rubric.toString g2,
+                  Grader3.Rubric.toString g3
+                ]
+              )
             )
-          )
+        end
 
         val score =
           List.foldr Rational.+ Rational.zero

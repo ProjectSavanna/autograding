@@ -14,9 +14,6 @@ functor EquivGrader (
   (* list of tests and corresponding string representations *)
   val tests : (string * input) list
 
-  (* short description of test suite *)
-  val description : string
-
   (* timeout value for each individual test case *)
   val timeout : Time.time
 ) :> GRADER =
@@ -27,20 +24,14 @@ functor EquivGrader (
       struct
         type t = (string * Output.t * Output.t Result.t) option
 
-        local
-          val incorrect = fn (input_string,output_refsol,output_submission) =>
+        val toString = fn
+          NONE => "All tests passed.\n"
+        | SOME (input_string,output_refsol,output_submission) => (
             "Test failed:\n" ^
             "  Test    : " ^ input_string ^ "\n" ^
             "  Expected: " ^ Output.toString output_refsol ^ "\n" ^
             "  Received: " ^ Result.toString Output.toString output_submission ^ "\n"
-        in
-          val toString = fn counterexample =>
-            description ^ " " ^ (
-              case counterexample of
-                NONE => "All tests passed.\n"
-              | SOME x => incorrect x
-            )
-        end
+          )
 
         val score = fn
           NONE   => Rational.one

@@ -8,12 +8,8 @@ structure FormatUtil =
         "/" ^ padded weight ^ "):"
     end
 
-    local
-      val format = fn
-        nil => "\n"
-      | x :: nil => " " ^ x ^ "\n"
-      | l => "\n" ^ (String.concat o List.map (fn s => "  " ^ s ^ "\n")) l
-    in
-      val indent = format o String.tokens (Fn.curry (op =) #"\n")
-    end
+    val indent =
+      String.concat
+      o List.map (fn s => "  " ^ s ^ "\n")
+      o String.tokens (Fn.curry (op =) #"\n")
   end

@@ -8,6 +8,7 @@ functor ProdGrader9 (
   structure Grader7 : GRADER
   structure Grader8 : GRADER
   structure Grader9 : GRADER
+  val descriptions : string * string * string * string * string * string * string * string * string
   val weights : int * int * int * int * int * int * int * int * int
 ) :> GRADER =
   struct
@@ -49,26 +50,35 @@ functor ProdGrader9 (
           ) weights
         end
 
-        val toString = fn rubric as {g1=g1,g2=g2,g3=g3,g4=g4,g5=g5,g6=g6,g7=g7,g8=g8,g9=g9} =>
-          String.concat (
-            ListPair.map (op ^) (
-              ListPair.map FormatUtil.showPercents (
-                scores rubric,
-                fractions
-              ),
-              List.map FormatUtil.indent [
-                Grader1.Rubric.toString g1,
-                Grader2.Rubric.toString g2,
-                Grader3.Rubric.toString g3,
-                Grader4.Rubric.toString g4,
-                Grader5.Rubric.toString g5,
-                Grader6.Rubric.toString g6,
-                Grader7.Rubric.toString g7,
-                Grader8.Rubric.toString g8,
-                Grader9.Rubric.toString g9
-              ]
+        local
+          val (d1,d2,d3,d4,d5,d6,d7,d8,d9) = descriptions
+          val combine = fn (percent,description) => percent ^ " " ^ description
+          val format = fn (description,output) => description ^ "\n" ^ FormatUtil.indent output
+        in
+          val toString = fn rubric as {g1=g1,g2=g2,g3=g3,g4=g4,g5=g5,g6=g6,g7=g7,g8=g8,g9=g9} =>
+            String.concat (
+              ListPair.map format (
+                ListPair.map combine (
+                  ListPair.map FormatUtil.showPercents (
+                    scores rubric,
+                    fractions
+                  ),
+                  [d1,d2,d3,d4,d5,d6,d7,d8,d9]
+                ),
+                [
+                  Grader1.Rubric.toString g1,
+                  Grader2.Rubric.toString g2,
+                  Grader3.Rubric.toString g3,
+                  Grader4.Rubric.toString g4,
+                  Grader5.Rubric.toString g5,
+                  Grader6.Rubric.toString g6,
+                  Grader7.Rubric.toString g7,
+                  Grader8.Rubric.toString g8,
+                  Grader9.Rubric.toString g9
+                ]
+              )
             )
-          )
+        end
 
         val score =
           List.foldr Rational.+ Rational.zero

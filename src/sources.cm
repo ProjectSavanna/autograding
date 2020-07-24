@@ -1,7 +1,7 @@
 Library
   signature GRADER
 
-  structure TrivialGrader
+  functor TrivialGrader
   functor ProdGrader2
   functor ProdGrader3
   functor ProdGrader4
@@ -22,7 +22,7 @@ is
 
   GRADER.sig
 
-  TrivialGrader.sml
+  TrivialGrader.fun
   prod (
     ProdGrader2.sml
     ProdGrader3.sml

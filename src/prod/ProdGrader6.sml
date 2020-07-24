@@ -1,16 +1,18 @@
 functor ProdGrader6 (
+  val description : string
   structure Grader1 : GRADER
   structure Grader2 : GRADER
   structure Grader3 : GRADER
   structure Grader4 : GRADER
   structure Grader5 : GRADER
   structure Grader6 : GRADER
-  val descriptions : string * string * string * string * string * string
   val weights : int * int * int * int * int * int
 ) :> GRADER =
   struct
     structure Rubric =
       struct
+        val description = description
+
         type t = {
           g1 : Grader1.Rubric.t,
           g2 : Grader2.Rubric.t,
@@ -42,7 +44,14 @@ functor ProdGrader6 (
         end
 
         local
-          val (d1,d2,d3,d4,d5,d6) = descriptions
+          val descriptions = [
+            Grader1.Rubric.description,
+            Grader2.Rubric.description,
+            Grader3.Rubric.description,
+            Grader4.Rubric.description,
+            Grader5.Rubric.description,
+            Grader6.Rubric.description
+          ]
           val combine = fn (percent,description) => percent ^ " " ^ description
           val format = fn (description,output) => description ^ "\n" ^ FormatUtil.indent output
         in
@@ -54,7 +63,7 @@ functor ProdGrader6 (
                     scores rubric,
                     fractions
                   ),
-                  [d1,d2,d3,d4,d5,d6]
+                  descriptions
                 ),
                 [
                   Grader1.Rubric.toString g1,

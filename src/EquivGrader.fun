@@ -14,14 +14,17 @@ functor EquivGrader (
   (* list of tests and corresponding string representations *)
   val tests : (string * input) list
 
+  (* short description of test suite *)
+  val description : string
+
   (* timeout value for each individual test case *)
   val timeout : Time.time
 ) :> GRADER =
   struct
-    val eval = fn f => Result.evaluate timeout f
-
     structure Rubric =
       struct
+        val description = description
+
         type t = (string * Output.t * Output.t Result.t) option
 
         val toString = fn
@@ -63,6 +66,8 @@ functor EquivGrader (
       Result.Value x   => Option.map Result.return x
     | Result.Raise e   => SOME (Result.Raise e)
     | Result.Timeout t => SOME (Result.Timeout t)
+
+    val eval = fn f => Result.evaluate timeout f
 
     val process = fn () =>
       tests

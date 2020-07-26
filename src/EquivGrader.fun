@@ -18,7 +18,7 @@ functor EquivGrader (
 
     val tests = List.map (fn (inputString,input) =>
       let
-        val refsolOutput = refsol input
+        val refsolOutput = Result.valOf (Result.evaluate timeout refsol input)
       in
         ((input,fn () => inputString),(
           Fn.curry Output.equal refsolOutput,

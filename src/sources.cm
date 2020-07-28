@@ -13,6 +13,7 @@ Library
 
   signature OUTPUT
   functor BucketGrader
+  functor EquivGraderBucket
   functor EquivGrader
 
   structure FormatUtil
@@ -38,6 +39,7 @@ is
   output/output.cm
   $SMACKAGE/result/v1/sources.cm
   BucketGrader.fun
+  EquivGraderBucket.fun
   EquivGrader.fun
 
   FormatUtil.sml

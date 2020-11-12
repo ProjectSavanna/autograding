@@ -89,34 +89,21 @@ functor BucketGrader (
         )
       val testBuckets = partition (bucket o #1 o #1) tests
 
-      infix |>
-      fun x |> f = f x
-
-      val min = fn
-        (NONE  ,y) => y
-      | (SOME x,_) => SOME x
-
-      val sequence = fn
-        Result.Value x   => Option.map Result.return x
-      | Result.Raise e   => SOME (Result.Raise e)
-      | Result.Timeout t => SOME (Result.Timeout t)
-
       val eval = fn f => Result.evaluate timeout f
 
       val rec processBucket = fn
-        [] => NONE
-      | ((input,inputString),(p,pString))::xs =>
+        nil                                        => NONE
+      | ((input,inputString),(p,pString)) :: tests =>
           let
-            val result =
-              input
-              |> eval submission
-              |> Result.map (fn x => if p x then NONE else SOME x)
-              |> sequence
-              |> Option.map (fn x => (inputString,pString,x))
+            val resultOpt =
+              case eval submission input of
+                Result.Value x   => if p x then NONE else SOME (Result.Value x)
+              | Result.Raise e   => SOME (Result.Raise e)
+              | Result.Timeout t => SOME (Result.Timeout t)
           in
-            case result of
-              NONE => processBucket xs
-            | SOME _ => result
+            case resultOpt of
+              NONE        => processBucket tests
+            | SOME result => SOME (inputString, pString, result)
           end
     in
       val process = fn () => List.map (processBucket o testBuckets o #1) buckets

@@ -103,18 +103,22 @@ functor BucketGrader (
 
       val eval = fn f => Result.evaluate timeout f
 
-      val processBucket = fn bucket =>
-        bucket
-        |> testBuckets
-        |> List.map (fn ((input,inputString),(p,pString)) =>
-            input
-            |> eval submission
-            |> Result.map (fn x => if p x then NONE else SOME x)
-            |> sequence
-            |> Option.map (fn x => (inputString,pString,x))
-          )
-        |> List.foldr min NONE
+      val rec processBucket = fn
+        [] => NONE
+      | ((input,inputString),(p,pString))::xs =>
+          let
+            val result =
+              input
+              |> eval submission
+              |> Result.map (fn x => if p x then NONE else SOME x)
+              |> sequence
+              |> Option.map (fn x => (inputString,pString,x))
+          in
+            case result of
+              NONE => processBucket xs
+            | SOME _ => result
+          end
     in
-      val process = fn () => List.map (processBucket o #1) buckets
+      val process = fn () => List.map (processBucket o testBuckets o #1) buckets
     end
   end

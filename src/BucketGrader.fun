@@ -14,8 +14,6 @@ functor BucketGrader (I : BUCKET_INPUT) =
             | SOME y => SOME y
           )
 
-        structure Output = Output
-
         val score = fn
           NONE   => Rational.one
         | SOME _ => Rational.zero
@@ -51,8 +49,6 @@ functor BucketGraderList (
               | SOME y => (y :: l, n)
             end
           )
-
-        structure Output = Output
 
         val score = fn (l, n) => Rational.// (n, n + List.length l)
 

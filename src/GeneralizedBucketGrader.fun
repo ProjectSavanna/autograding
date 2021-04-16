@@ -26,14 +26,13 @@ signature SCHEME =
     type 'a t
     val aggregate : ('a -> 'b option) -> 'a list -> 'b t
 
-    structure Output : OUTPUT
     val score : 'a t -> Rational.t
     val toString : ('a -> string) -> 'a t -> string
   end
 
 functor GeneralizedBucketGrader (
   include BUCKET_INPUT
-  structure Scheme : SCHEME where Output = Output
+  structure Scheme : SCHEME
 ) :> GRADER =
   struct
     structure Rubric =

@@ -15,6 +15,10 @@ Library
   functor EquivGraderBucket
   functor EquivGrader
 
+  functor BucketGraderList
+  functor EquivGraderBucketList
+  functor EquivGraderList
+
   structure FormatUtil
 is
   $/basis.cm
@@ -37,6 +41,8 @@ is
 
   output/output.cm
   $SMACKAGE/result/v1/sources.cm
+
+  GeneralizedBucketGrader.fun
   BucketGrader.fun
   EquivGraderBucket.fun
   EquivGrader.fun

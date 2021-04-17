@@ -4,7 +4,7 @@ functor TrivialGrader (val description : string) :> GRADER =
       struct
         val description = description
         type t = unit
-        val toString = fn () => "Grading successful."
+        val toString = fn () => "Grading successful.\n"
         val score = fn () => Rational.one
       end
 

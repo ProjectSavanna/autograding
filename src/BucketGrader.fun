@@ -50,7 +50,9 @@ functor BucketGraderList (
             end
           )
 
-        val score = fn (l, n) => Rational.// (n, n + List.length l)
+        val score =
+          fn (nil, 0) => Rational.one
+           | (l  , n) => Rational.// (n, n + List.length l)
 
         val toString = fn f => fn (l, n) =>
           "Tests passed: " ^ Int.toString n ^ "/" ^ Int.toString (n + List.length l) ^ " (" ^ Rational.percent (score (l, n)) ^ ")\n" ^

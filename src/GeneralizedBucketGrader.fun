@@ -66,9 +66,9 @@ functor GeneralizedBucketGrader (
           val schemeToString =
             Scheme.toString (fn { input, expected, output } =>
               "Test failed:\n" ^
-              "  Test    : " ^ input () ^ "\n" ^
-              "  Expected: " ^ expected () ^ "\n" ^
-              "  Received: " ^ Result.toString Output.toString output ^ "\n"
+              FormatUtil.indentWith "  Test    : " (input ()) ^ "\n" ^
+              FormatUtil.indentWith "  Expected: " (expected ()) ^ "\n" ^
+              FormatUtil.indentWith "  Received: " (Result.toString Output.toString output) ^ "\n"
             )
         in
           val toString = fn

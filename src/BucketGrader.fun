@@ -56,7 +56,7 @@ functor BucketGraderList (
           "Tests passed: " ^ Int.toString n ^ "/" ^ Int.toString (n + List.length l) ^ " (" ^ Rational.percent (score (l, n)) ^ ")\n" ^
           String.concat (
             List.map
-              (fn failedCase => FormatUtil.indentWith #"-" (f failedCase))
+              (fn failedCase => FormatUtil.indentWith "- " (f failedCase))
               (List.take (l, Int.min (List.length l, cutoff)))
           ) ^ (if List.length l > cutoff then "- ...\n" else "")
       end

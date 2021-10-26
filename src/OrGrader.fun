@@ -1,10 +1,10 @@
-functor OrGrader (structure Grader1 : GRADER
+functor OrGrader (val description : string
+                  structure Grader1 : GRADER
                   structure Grader2 : GRADER) :> GRADER =
   struct
     structure Rubric =
       struct
-        val description = "ConstraintGrader: " ^ Constraint.Rubric.description
-                            ^ " and " ^ Standard.Rubric.description
+        val description = description
 
         datatype t = Result1 of Grader1.Rubric.t
                    | Result2 of Grader2.Rubric.t

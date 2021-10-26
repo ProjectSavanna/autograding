@@ -5,8 +5,7 @@ functor ConstraintGrader (structure Constraint : GRADER
   struct
     structure Rubric =
       struct
-        val description = "ConstraintGrader: " ^ Constraint.Rubric.description
-                            ^ " and " ^ Standard.Rubric.description
+        val description = Standard.Rubric.description
 
         datatype t = Violation
                    | Result of Standard.Rubric.t

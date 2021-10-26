@@ -18,10 +18,10 @@ functor OrGrader (structure Grader1 : GRADER
 
     val process = fn () =>
       let
-        val process1 = Grader1.process ()
-        val score1   = Grader1.Rubric.score process1
-        val process2 = Grader2.process ()
-        val score2   = Grader2.Rubric.score process2
+        val rubric1 = Grader1.process ()
+        val score1   = Grader1.Rubric.score rubric1
+        val rubric2 = Grader2.process ()
+        val score2   = Grader2.Rubric.score rubric2
       in
         case Rational.compare (score1, score2) of
           LESS => Rubric.Result2 process2

@@ -16,7 +16,7 @@ signature BUCKET_INPUT =
 
     structure Bucket : OUTPUT
     val bucket : input -> Bucket.t
-    val buckets : (Bucket.t * Rational.Int.int) list
+    val buckets : (Bucket.t * int) list
 
     val submission : input -> Output.t
   end
@@ -50,7 +50,7 @@ functor GeneralizedBucketGrader (
 
         val fractions =
           let
-            val weights = List.map #2 buckets
+            val weights = List.map (IntInf.fromInt o #2) buckets
             val total = List.foldr (op +) 0 weights
           in
             List.map

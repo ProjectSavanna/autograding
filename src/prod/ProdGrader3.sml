@@ -3,7 +3,7 @@ functor ProdGrader3 (
   structure Grader1 : GRADER
   structure Grader2 : GRADER
   structure Grader3 : GRADER
-  val weights : Rational.Int.int * Rational.Int.int * Rational.Int.int
+  val weights : int * int * int
 ) :> GRADER =
   struct
     structure Rubric =
@@ -25,7 +25,7 @@ functor ProdGrader3 (
         val fractions =
           let
             val (w1,w2,w3) = weights
-            val weights = [w1,w2,w3]
+            val weights = List.map IntInf.fromInt [w1,w2,w3]
             val total = List.foldr (op +) 0 weights
           in
             List.map

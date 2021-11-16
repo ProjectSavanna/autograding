@@ -36,7 +36,7 @@ functor BucketGraderList (
 
     structure Scheme =
       struct
-        type 'a t = 'a list * int
+        type 'a t = 'a list * Rational.Int.int
 
         fun aggregate (f : 'a -> 'b option) : 'a list -> 'b t = fn
           nil     => (nil, 0)
@@ -52,14 +52,16 @@ functor BucketGraderList (
 
         val score =
           fn (nil, 0) => Rational.one
-           | (l  , n) => Rational.// (n, n + List.length l)
+           | (l  , n) => Rational.// (n, n + Rational.Int.fromInt (List.length l))
 
-        val toString = fn f => fn (l, n) =>
-          "Tests passed: " ^ Int.toString n ^ "/" ^ Int.toString (n + List.length l) ^ " (" ^ Rational.percent (score (l, n)) ^ ")\n" ^
-          String.concat (
-            List.map
-              (fn failedCase => FormatUtil.indentWith "- " (f failedCase))
-              (List.take (l, Int.min (List.length l, cutoff)))
-          ) ^ (if List.length l > cutoff then "- ...\n" else "")
+        val toString =
+          fn f => fn (l, n) =>
+            "Tests passed: " ^ Rational.Int.toString n ^ "/" ^ Rational.Int.toString (n + Rational.Int.fromInt (List.length l))
+            ^ " (" ^ Rational.percent (score (l, n)) ^ ")\n"
+            ^ String.concat (
+              List.map
+                (fn failedCase => FormatUtil.indentWith "- " (f failedCase))
+                (List.take (l, Int.min (List.length l, cutoff)))
+            ) ^ (if List.length l > cutoff then "- ...\n" else "")
       end
   )

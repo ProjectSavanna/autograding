@@ -8,7 +8,7 @@ functor ProdGrader8 (
   structure Grader6 : GRADER
   structure Grader7 : GRADER
   structure Grader8 : GRADER
-  val weights : int * int * int * int * int * int * int * int
+  val weights : Rational.Int.int * Rational.Int.int * Rational.Int.int * Rational.Int.int * Rational.Int.int * Rational.Int.int * Rational.Int.int * Rational.Int.int
 ) :> GRADER =
   struct
     structure Rubric =
@@ -37,17 +37,18 @@ functor ProdGrader8 (
           Grader8.Rubric.score g8
         ]
 
-        local
-          val (w1,w2,w3,w4,w5,w6,w7,w8) = weights
-          val weights = [w1,w2,w3,w4,w5,w6,w7,w8]
-          val total = List.foldr Int.+ 0 weights
-        in
-          val fractions = List.map (
-            case total of
-              0 => Fn.const Rational.one
-            | _ => Fn.curry (Fn.flip Rational.//) total
-          ) weights
-        end
+        val fractions =
+          let
+            val (w1,w2,w3,w4,w5,w6,w7,w8) = weights
+            val weights = [w1,w2,w3,w4,w5,w6,w7,w8]
+            val total = List.foldr (op +) 0 weights
+          in
+            List.map
+              (case total of
+                0 => Fn.const Rational.one
+              | _ => Fn.curry (Fn.flip Rational.//) total)
+              weights
+          end
 
         local
           val descriptions = [

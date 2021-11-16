@@ -18,7 +18,7 @@ functor EquivAux (I : EQUIV_INPUT) =
 
     structure Bucket = UnitOutput
     val bucket = ignore
-    val buckets = [((),1)]
+    val buckets = [((), 1 : Rational.Int.int)]
   end
 
 functor EquivGrader (I : EQUIV_INPUT) :> GRADER =

@@ -10,7 +10,7 @@ signature EQUIV_BUCKET_INPUT =
 
     structure Bucket : OUTPUT
     val bucket : input -> Bucket.t
-    val buckets : (Bucket.t * int) list
+    val buckets : (Bucket.t * Rational.Int.int) list
 
     val refsol     : input -> Output.t
     val submission : input -> Output.t

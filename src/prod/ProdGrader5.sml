@@ -5,7 +5,7 @@ functor ProdGrader5 (
   structure Grader3 : GRADER
   structure Grader4 : GRADER
   structure Grader5 : GRADER
-  val weights : int * int * int * int * int
+  val weights : Rational.Int.int * Rational.Int.int * Rational.Int.int * Rational.Int.int * Rational.Int.int
 ) :> GRADER =
   struct
     structure Rubric =
@@ -28,17 +28,18 @@ functor ProdGrader5 (
           Grader5.Rubric.score g5
         ]
 
-        local
-          val (w1,w2,w3,w4,w5) = weights
-          val weights = [w1,w2,w3,w4,w5]
-          val total = List.foldr Int.+ 0 weights
-        in
-          val fractions = List.map (
-            case total of
-              0 => Fn.const Rational.one
-            | _ => Fn.curry (Fn.flip Rational.//) total
-          ) weights
-        end
+        val fractions =
+          let
+            val (w1,w2,w3,w4,w5) = weights
+            val weights = [w1,w2,w3,w4,w5]
+            val total = List.foldr (op +) 0 weights
+          in
+            List.map
+              (case total of
+                0 => Fn.const Rational.one
+              | _ => Fn.curry (Fn.flip Rational.//) total)
+              weights
+          end
 
         local
           val descriptions = [

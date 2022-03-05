@@ -19,6 +19,7 @@ Library
   functor EquivGraderBucketList
   functor EquivGraderList
 
+  functor ConditionalPreamble
   functor Preamble
 
   structure FormatUtil
@@ -49,6 +50,7 @@ is
   EquivGraderBucket.fun
   EquivGrader.fun
 
+  ConditionalPreamble.fun
   Preamble.fun
 
   FormatUtil.sml
